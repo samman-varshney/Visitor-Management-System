@@ -10,14 +10,14 @@ export enum statusEnum {
 }
 
 interface AuthState {
-  id: string | null;
+  userId: string | null;
   status: statusEnum;
   role: Role | null;
   message?: string | null;
 }
 
 const initialState: AuthState = {
-  id: null,
+  userId: null,
   role: null,
   status: statusEnum.IDLE,
   message: null,
@@ -39,9 +39,9 @@ const authSlice = createSlice({
 
     setAuthUserId(
       state,
-      action: PayloadAction<{ id: string; role: Role | null }>,
+      action: PayloadAction<{ userId: string; role: Role | null }>,
     ) {
-      state.id = action.payload.id;
+      state.userId = action.payload.userId;
       state.role = action.payload.role;
     },
 
@@ -51,7 +51,7 @@ const authSlice = createSlice({
   },
   selectors: {
     selectAuth: (state: AuthSliceState) => state,
-    selectUser: (state: AuthSliceState) => state.id,
+    selectUserId: (state: AuthSliceState) => state.userId,
     selectRole: (state: AuthSliceState) => state.role,
     selectStatus: (state: AuthSliceState) => state.status,
     selectMessage: (state: AuthSliceState) => state.message,
