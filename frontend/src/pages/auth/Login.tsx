@@ -31,10 +31,28 @@ const Login = () => {
       <div className="bg-white p-6 rounded shadow w-80">
         <h2 className="text-xl mb-4">Login</h2>
         <form onSubmit={formik.handleSubmit}>
-          <input className="w-full mb-2 p-2 border" placeholder="Email" />
-          <input className="w-full mb-4 p-2 border" placeholder="Password" />
+          <input
+            className="w-full mb-2 p-2 border"
+            placeholder="Email"
+            name="email"
+            type="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          <input
+            className="w-full mb-4 p-2 border"
+            placeholder="Password"
+            name="password"
+            type="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
 
-          <button className="w-full bg-black text-white py-2">Login</button>
+          <button type="submit" className="w-full bg-black text-white py-2">
+            Login
+          </button>
         </form>
       </div>
     </div>
