@@ -31,6 +31,7 @@ const Login = () => {
       <div className="bg-white p-6 rounded shadow w-80">
         <h2 className="text-xl mb-4">Login</h2>
         <form onSubmit={formik.handleSubmit}>
+
           <input
             className="w-full mb-2 p-2 border"
             placeholder="Email"
@@ -53,6 +54,7 @@ const Login = () => {
           <button type="submit" className="w-full bg-black text-white py-2">
             Login
           </button>
+
         </form>
       </div>
     </div>
