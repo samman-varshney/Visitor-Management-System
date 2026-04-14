@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "../pages/Login";
+import Login from "../pages/auth/Login";
 import Dashboard from "../pages/Dashboard";
 import Visitors from "../pages/visitor/Visitors";
 import AddVisitor from "../pages/visitor/AddVisitor";
@@ -18,7 +18,7 @@ const AppRoutes = () => {
           element={
             
             // <ProtectedRoute allowedRoles={["admin", "guard"]}>
-              <Dashboard />
+            <Dashboard />
             // </ProtectedRoute>
           }
         />
@@ -27,7 +27,7 @@ const AppRoutes = () => {
           path="/visitors"
           element={
             // <ProtectedRoute allowedRoles={["admin", "guard"]}>
-              <Visitors />
+            <Visitors />
             // </ProtectedRoute>
           }
         />
