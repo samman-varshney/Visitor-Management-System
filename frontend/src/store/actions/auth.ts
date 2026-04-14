@@ -5,3 +5,7 @@ export const loginRequest = (payload: LoginRequestDTO) => ({
   type: authActionTypes.LOGIN_REQUEST,
   payload: payload,
 });
+
+export const logoutRequest = () => ({
+  type: authActionTypes.LOGOUT_REQUEST,
+});
