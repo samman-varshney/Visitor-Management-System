@@ -9,10 +9,10 @@ import { loginValidtor } from "./validators/loginValidation";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userId } = useSelector(authSelectors.selectAuth);
+  const userId = useSelector(authSelectors.selectUserId);
   useEffect(() => {
     if (userId) {
-      navigate("/home"); //redirect user to desired route
+      navigate("/home");
     }
   }, [userId]);
 
