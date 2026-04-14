@@ -1,8 +1,8 @@
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../../layouts/MainLayout";
 import { useEffect, useState } from "react";
-import { getVisits } from "..//services/visitApi";
-import VisitorCard from "./visitor/VisitorCard"
-import type { VisitRequest } from "../types/visit";
+import { getVisits } from "../../services/visitApi";
+import VisitorCard from "./VisitorCard";
+import type { VisitRequest } from "../../types/visit";
 import { useNavigate } from "react-router-dom";
 
 const Visitors = () => {
