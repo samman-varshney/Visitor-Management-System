@@ -11,7 +11,7 @@ export interface Visitor {
   checkInTime: Date;
   checkOutTime?: Date;
   visitDuration?: string;
-  status: "checked-in" | "checked-out";
+  status: VisitorStatus;
   qrCode?: string;
   idProof?: string;
   requestId?: string;
@@ -28,4 +28,9 @@ export interface Visitor {
   };
   createdAt: Date;
   updatedAt: Date;
+}
+
+export enum VisitorStatus {
+  checkedIn,
+  checkedOut,
 }

@@ -1,12 +1,6 @@
 export interface Notification {
   userId: string;
-  type:
-    | "visit_request"
-    | "approval"
-    | "rejection"
-    | "checkin"
-    | "checkout"
-    | "request";
+  type: NotificationType;
   title: string;
   message: string;
   isRead: boolean;
@@ -14,4 +8,13 @@ export interface Notification {
   relatedId?: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export enum NotificationType {
+  visit_request,
+  approval,
+  rejection,
+  checkin,
+  checkout,
+  request,
 }

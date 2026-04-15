@@ -10,7 +10,7 @@ export interface VisitRequest {
   hostEmployeeId: string;
   hostEmployeeName: string;
   hostEmployeeEmail: string;
-  status: "pending" | "approved" | "rejected";
+  status: VisitRequestStatus;
   qrCode?: string;
   approvedAt?: Date;
   rejectedAt?: Date;
@@ -29,4 +29,9 @@ export interface VisitRequest {
   };
   createdAt: Date;
   updatedAt: Date;
+}
+export enum VisitRequestStatus {
+  pending,
+  approved,
+  rejected,
 }
