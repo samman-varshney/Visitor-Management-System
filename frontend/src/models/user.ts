@@ -1,10 +1,19 @@
-export enum Role {
-  HOST = "HOST",
-  GUARD = "GUARD",
-  ADMIN = "ADMIN",
+export interface User {
+  email: string;
+  password: string;
+  fullName: string;
+  name: string;
+  employeeId: string;
+  role: Role;
+  department?: string;
+  phoneNumber?: string;
+  photoUrl?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface User {
-  id: string;
-  roles: Role;
+export enum Role {
+  admin,
+  employee,
+  security,
 }
