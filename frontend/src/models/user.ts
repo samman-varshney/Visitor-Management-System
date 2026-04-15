@@ -4,10 +4,16 @@ export interface User {
   fullName: string;
   name: string;
   employeeId: string;
-  role: "admin" | "employee" | "security";
+  role: Role;
   department?: string;
   phoneNumber?: string;
   photoUrl?: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export enum Role {
+  admin,
+  employee,
+  security,
 }
