@@ -1,4 +1,5 @@
 export interface Visitor {
+  id: number;
   fullName: string;
   email: string;
   phoneNumber: string;
@@ -17,12 +18,12 @@ export interface Visitor {
   requestId?: string;
   checkoutEmailSent: boolean;
   checkedInBy: {
-    userId: string;
+    userId: number;
     name: string;
     role: string;
   };
   checkedOutBy?: {
-    userId: string;
+    userId: number;
     name: string;
     role: string;
   };

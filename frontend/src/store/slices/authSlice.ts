@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { Role } from "../../models/user";
+import type { Role } from "../../models/User";
 
 export enum statusEnum {
   IDLE = "IDLE",
