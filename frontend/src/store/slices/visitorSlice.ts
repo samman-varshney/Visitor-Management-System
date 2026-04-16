@@ -1,94 +1,130 @@
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createEntityAdapter,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { Visitor } from "../../models/Visitor";
+import { VisitorStatus, type Visitor } from "../../models/Visitor";
+import type { BaseEntityStore } from "./baseEntityStore";
 
-const visitorAdapter = createEntityAdapter<Visitor, number>({
-  selectId: (visitor) => visitor.id,
+type VisitorOperationKey = keyof BaseEntityStore;
+type VisitorStats = { total: number; active: number; today: number };
+
+const adapter = createEntityAdapter<Visitor, number>({
+  selectId: (v) => v.id,
   sortComparer: (a, b) =>
     new Date(b.checkInTime).getTime() - new Date(a.checkInTime).getTime(),
 });
 
-const initialState = visitorAdapter.getInitialState({
-  loading: false,
-  error: null as string | null,
-  currentVisitor: null as Visitor | null,
-  stats: {
-    total: 0,
-    active: 0,
-    today: 0,
-  },
+const initialState = adapter.getInitialState<
+  BaseEntityStore & {
+    currentVisitor: Visitor | null;
+    stats: VisitorStats;
+  }
+>({
+  currentVisitor: null,
+  stats: { total: 0, active: 0, today: 0 },
+  create: {},
+  update: {},
+  list: {},
+  get: {},
+  delete: {},
+  archive: {},
 });
 
-const visitorSlice = createSlice({
-  name: "visitors",
+const slice = createSlice({
+  name: "visitor",
   initialState,
   reducers: {
-    // 🔹 Requests (Saga triggers)
-    fetchVisitorsRequest: (state) => {
-      state.loading = true;
+    // ===== REQUEST STATE =====
+    setListLoading: (state) => {
+      state.list = { loading: true };
     },
-    fetchActiveVisitorsRequest: (state) => {
-      state.loading = true;
+    setCreateLoading: (state) => {
+      state.create = { loading: true };
     },
-    checkInVisitorRequest: (state) => {
-      state.loading = true;
+    setUpdateLoading: (state) => {
+      state.update = { loading: true };
     },
-    checkOutVisitorRequest: (state) => {
-      state.loading = true;
-    },
-    fetchStatsRequest: () => {},
-
-    // 🔹 Success
-    fetchVisitorsSuccess: (state, action: PayloadAction<Visitor[]>) => {
-      state.loading = false;
-      visitorAdapter.setAll(state, action.payload);
+    setGetLoading: (state) => {
+      state.get = { loading: true };
     },
 
-    fetchActiveVisitorsSuccess: (state, action: PayloadAction<Visitor[]>) => {
-      state.loading = false;
-      // Instead of separate array → filter when selecting
-      visitorAdapter.upsertMany(state, action.payload);
+    // ===== SUCCESS =====
+    setVisitors: (state, action: PayloadAction<Visitor[]>) => {
+      state.list = { loading: false };
+      adapter.setAll(state, action.payload);
     },
 
-    checkOutVisitorSuccess: (state, action: PayloadAction<Visitor>) => {
-      state.loading = false;
-      visitorAdapter.upsertOne(state, action.payload);
+    setVisitor: (state, action: PayloadAction<Visitor>) => {
+      state.get = { loading: false, success: true };
+      state.currentVisitor = action.payload;
+      adapter.upsertOne(state, action.payload);
     },
 
-    fetchStatsSuccess: (state, action) => {
+    addVisitorSuccess: (state) => {
+      state.create = { loading: false, success: true };
+    },
+
+    updateVisitorSuccess: (state, action: PayloadAction<Visitor>) => {
+      state.update = { loading: false, success: true };
+      adapter.upsertOne(state, action.payload);
+    },
+
+    setStats: (state, action: PayloadAction<VisitorStats>) => {
       state.stats = action.payload;
     },
 
-    // 🔹 Failure
-    failure: (state, action: PayloadAction<string>) => {
-      state.loading = false;
-      state.error = action.payload;
+    // ===== FAILURE =====
+    setError: (
+      state,
+      action: PayloadAction<{
+        type: VisitorOperationKey;
+        message: string;
+      }>,
+    ) => {
+      const { type, message } = action.payload;
+      state[type] = { loading: false, error: true, message };
     },
 
-    clearError: (state) => {
-      state.error = null;
+    clearOperation: (state, action: PayloadAction<VisitorOperationKey>) => {
+      state[action.payload] = {};
     },
+  },
 
-    setCurrentVisitor: (state, action) => {
-      state.currentVisitor = action.payload;
-    },
+  selectors: {
+    // Basic adapter selectors (manually mapped)
+    selectIds: (state) => state.ids,
+    selectEntities: (state) => state.entities,
+
+    selectAllVisitors: (state) => state.ids.map((id) => state.entities[id]!),
+
+    selectVisitorById: (state, id: number) => state.entities[id],
+
+    selectActiveVisitors: (state) =>
+      state.ids
+        .map((id) => state.entities[id]!)
+        .filter((v) => v.status === VisitorStatus.checkedIn),
+
+    selectStats: (state) => state.stats,
+    selectListState: (state) => state.list,
+    selectCreateState: (state) => state.create,
   },
 });
 
 export const {
-  fetchVisitorsRequest,
-  fetchVisitorsSuccess,
-  fetchActiveVisitorsRequest,
-  fetchActiveVisitorsSuccess,
-  checkInVisitorRequest,
-  checkOutVisitorRequest,
-  checkOutVisitorSuccess,
-  fetchStatsRequest,
-  fetchStatsSuccess,
-  failure,
-  clearError,
-  setCurrentVisitor,
-} = visitorSlice.actions;
+  setListLoading,
+  setCreateLoading,
+  setUpdateLoading,
+  setGetLoading,
+  setVisitors,
+  setVisitor,
+  addVisitorSuccess,
+  updateVisitorSuccess,
+  setStats,
+  setError,
+  clearOperation,
+} = slice.actions;
 
-export default visitorSlice.reducer;
+export const visitorReducer = slice.reducer;
+export const visitorSelectors = slice.selectors;
