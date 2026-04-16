@@ -11,13 +11,28 @@ export interface BaseEntityStore {
     success?: boolean;
     message?: string;
   };
-  list?: { loading?: boolean; error?: boolean; message?: string };
+  list?: {
+    loading?: boolean;
+    error?: boolean;
+    message?: string;
+    success?: boolean;
+  };
   get?: {
     loading?: boolean;
     error?: boolean;
     success?: boolean;
     message?: string;
   };
-  delete?: { loading?: boolean; error?: boolean; message?: string };
-  archive?: { loading?: boolean; error?: boolean; message?: string };
+  delete?: {
+    loading?: boolean;
+    error?: boolean;
+    message?: string;
+    success?: boolean;
+  };
+  archive?: {
+    loading?: boolean;
+    error?: boolean;
+    message?: string;
+    success?: boolean;
+  };
 }
