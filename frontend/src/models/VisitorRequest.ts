@@ -1,4 +1,5 @@
-export interface VisitRequest {
+export interface VisitorRequest {
+  id: number;
   visitorName: string;
   visitorEmail: string;
   visitorPhone: string;
@@ -10,7 +11,7 @@ export interface VisitRequest {
   hostEmployeeId: string;
   hostEmployeeName: string;
   hostEmployeeEmail: string;
-  status: VisitRequestStatus;
+  status: VisitorRequestStatus;
   qrCode?: string;
   approvedAt?: Date;
   rejectedAt?: Date;
@@ -30,7 +31,7 @@ export interface VisitRequest {
   createdAt: Date;
   updatedAt: Date;
 }
-export enum VisitRequestStatus {
+export enum VisitorRequestStatus {
   pending,
   approved,
   rejected,

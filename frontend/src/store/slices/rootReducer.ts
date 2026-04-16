@@ -1,5 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
+import { requestReducer } from "./visitorRequestSlice";
 import { visitorReducer } from "./visitorSlice";
 export const RESET_STATE_ACTION_TYPE = "RESET_STATE";
 export const resetAppState = () => ({
@@ -8,6 +9,7 @@ export const resetAppState = () => ({
 const appReducer = combineReducers({
   auth: authReducer,
   visitor: visitorReducer,
+  requests: requestReducer,
 });
 const rootReducer: typeof appReducer = (state, action) => {
   if (action.type === RESET_STATE_ACTION_TYPE) {
