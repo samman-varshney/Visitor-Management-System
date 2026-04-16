@@ -23,7 +23,7 @@ export interface VisitRequest {
   expiresAt: Date;
   createdBy: string;
   requestedBy?: {
-    userId: string;
+    userId: number;
     name: string;
     role: string;
   };
